@@ -1,3 +1,6 @@
+
+// Class to handle multi-Clients
+
 package server;
 
 import data.Blog;

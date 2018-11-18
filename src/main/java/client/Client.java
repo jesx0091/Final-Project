@@ -86,7 +86,8 @@ public class Client{
 				author = stringScanner.next();
 
 				System.out.println("What do you want to talk about ? (120 characters)");
-				tweet = stringScanner.next();
+				stringScanner.nextLine();
+				tweet = stringScanner.nextLine();
 
 				timestamp = Calendar.getInstance().getTime();
 
