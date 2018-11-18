@@ -165,9 +165,16 @@ public class Client{
 					}
 				}
 
-			} else {
+			} else if (action.equals("x")){
+				System.out.println("Exit");
+				close();
+				System.exit(0);
+			}
+			else {
 				//handling if it is a request
 				System.out.println("Error. Action had wrong value. ");
+				close();
+				System.exit(0);
 			}
 /*
 			System.out.println("Do you want to make another action? ");
