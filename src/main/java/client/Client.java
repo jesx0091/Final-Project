@@ -19,7 +19,7 @@ public class Client{
 	private Scanner stringScanner;
 	private String action2;
 	private String requestType;
-	//private String goAgain = "yes";
+	private String goAgain = "yes";
 
 	//constructor
 	public Client(){
@@ -33,9 +33,14 @@ public class Client{
 
 	//connect to server
 	public void startRunning(){
-		try{
-			connectToServer();
-			streamSetup();
+		try {
+			do {
+				connectToServer();
+				streamSetup();
+				System.out.println("Do you want to make another action? ");
+				System.out.println("Write 'yes' to make another action. Write anything else to end. ");
+				goAgain = stringScanner.next();
+			} while (goAgain.equals("yes"));
 		}catch(EOFException eofException){
 			System.out.println("\n Client terminated the connection");
 		}catch(IOException ioException){
@@ -55,10 +60,8 @@ public class Client{
 		output = new ObjectOutputStream(connection.getOutputStream());
 		output.flush();
 		input = new ObjectInputStream(connection.getInputStream());
-
-		doSomething();		// setup done. Continue to where stuff happens.
+			doSomething();
 	}
-
 	//Close connection
 	private void close(){
 		try{
@@ -179,7 +182,7 @@ public class Client{
 /*
 			System.out.println("Do you want to make another action? ");
 			System.out.println("Write 'yes' to make another action. Write anything else to end. ");
-			goAgain = stringScanner.next(); //reads a char.
+			goAgain = stringScanner.next();
 
 		}while(goAgain.equals("yes"));
 		*/
