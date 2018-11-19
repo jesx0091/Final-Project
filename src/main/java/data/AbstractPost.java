@@ -1,3 +1,8 @@
+// IST JAVA project
+// JES RYDALL LARSEN
+// MELANIE BRANDL
+// IRENE ARROYO
+
 package data;
 
 import java.io.Serializable;

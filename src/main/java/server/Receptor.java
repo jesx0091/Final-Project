@@ -1,3 +1,7 @@
+// IST JAVA project
+// JES RYDALL LARSEN
+// MELANIE BRANDL
+// IRENE ARROYO
 
 // Class to handle multi-Clients
 
@@ -20,7 +24,7 @@ import java.util.*;
         private ObjectOutputStream output;
         static private ObjectInputStream input;
         static Date timestamp = Calendar.getInstance().getTime();
-        private static Post post = new Post("Author not initialized! Serverside.", "Tweet not initialized! Serverside.", timestamp);
+        private static Post post = new Post("Author not initialized! Serverside.", "Tweet not initialized! Serverside.", timestamp); // default post
         static PostRequest userRequest = new PostRequest(post,"0");
         static PostSubmission user = new PostSubmission(post);
         private static Blog blog = new Blog();
@@ -35,16 +39,15 @@ import java.util.*;
                 doSomething();
             } catch (IOException e) {
                 e.printStackTrace();
-                System.out.print("Connection ended.");
             }finally{
                 close();			// Method to close output, input and connection.
             }
         }
 
         private void streamSetup() throws IOException {
-            output = new ObjectOutputStream(connection.getOutputStream());	// creates object 'ObjectOutputStream'. From documentation about getOutputStream(): This method returns an OutputStream where the data can be written.
+            output = new ObjectOutputStream(connection.getOutputStream());	// creates object 'ObjectOutputStream'. This method returns an OutputStream where the data can be written.
             output.flush();													// cleans the stream, if all bytes were not correctly send.
-            input = new ObjectInputStream(connection.getInputStream());		// creates object 'ObjectInputStream'. From documentation about getInputStream(): This method returns an InputStream representing the data.
+            input = new ObjectInputStream(connection.getInputStream());		// creates object 'ObjectInputStream'.  This method returns an InputStream representing the data.
         }
 
         // to close streams and sockets when connection is ended
@@ -60,22 +63,24 @@ import java.util.*;
 
         private void doSomething(){
             try {
-                userObject = (Object)input.readObject();		// reads object send from clientside
+                userObject = (Object)input.readObject();		// reads object sent from clientside
 
                 if (userObject instanceof PostRequest){
                     userRequest = (PostRequest) userObject;
 
                     String request;
                     request = userRequest.getRequestType();
-
+                    // write a tweet
                     if(request.equals("1")){
                         Post outputPost = new Post("Empty","Empty", timestamp);
                         outputPost = blog.readOne();
                         output.writeObject(outputPost);
+                     //read tweet
                     }else if(request.equals("2")){
                         List<Post> outputList = new LinkedList<Post>();
                         outputList = blog.readAll();
                         output.writeObject(outputList);
+                     // Read authors tweets
                     }else if(request.equals("3")){
                         List<Post> outputList = new LinkedList<Post>();
                         outputList = blog.readOwnPost(userRequest.getAuthor());
@@ -87,18 +92,6 @@ import java.util.*;
 
                     blog.addPost(user.getPost());
                     blog.save();
-                    System.out.println("This is the latest post: " + (blog.readOne()).getTweet());
-
-                    System.out.println("And now read all:");
-                    List<Post> outputList = new LinkedList<Post>();
-                    outputList = blog.readAll();
-                    Post outputPost = new Post("default", "default", timestamp);
-                    for (Iterator<Post> it = outputList.iterator(); it.hasNext(); ) {
-                        outputPost = it.next();
-                        System.out.println(outputPost.getAuthor());
-                        System.out.println(outputPost.getTweet());
-                        System.out.println(outputPost.getTimestamp());
-                    }
                 }
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();

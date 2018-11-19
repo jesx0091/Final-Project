@@ -1,3 +1,7 @@
+// IST JAVA project
+// JES RYDALL LARSEN
+// MELANIE BRANDL
+// IRENE ARROYO
 package server;
 
 import java.io.*;
@@ -8,14 +12,13 @@ public class BlogServer {
 	private static ServerSocket server;
 	private static Socket connection;
 
-	// constructor
 	public BlogServer(){
 	}
 
 	public static void main(String[] args) throws Exception {
-				// Creates an object 'newServer', which will later hold all connections (?)
+
 		try{
-			server = new ServerSocket(4040, 100);		// portnumber, 100 connection can wait at the port (called backlog)
+			server = new ServerSocket(4040);
 			while(true){								// look forever for new connections
 					connection = server.accept();	 	// accepts if connection is possible and creates socket
 					Receptor receptor=new Receptor(connection);
@@ -24,7 +27,7 @@ public class BlogServer {
 		}catch(IOException ioException){
 			ioException.printStackTrace();
 		}
-									// Start running 'server'.
+
 	}
 
 

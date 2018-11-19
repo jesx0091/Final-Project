@@ -1,3 +1,7 @@
+// IST JAVA project
+// JES RYDALL LARSEN
+// MELANIE BRANDL
+// IRENE ARROYO
 package client;
 import request.PostRequest;
 import request.PostSubmission;
@@ -21,7 +25,6 @@ public class Client{
 	private String requestType;
 	private String goAgain = "yes";
 
-	//constructor
 	public Client(){
 	}
 
@@ -31,7 +34,6 @@ public class Client{
 		client.startRunning();
     }
 
-	//connect to server
 	public void startRunning(){
 		try {
 			do {
@@ -74,16 +76,16 @@ public class Client{
 	}
 
 	private void doSomething() throws IOException {
-		//do {
+
 			System.out.println("1: Write a tweet");
 			System.out.println("2: Read tweets");
 			System.out.println("x: Exit");
 			System.out.println("What do you want to do?");
 			stringScanner = new Scanner(System.in);
-			action = stringScanner.next(); //reads a char.
+			action = stringScanner.next();
 
-			if (action.equals("1")) {        // Ascii Dec value of char '1' is 49.
-
+			//Write a tweet
+			if (action.equals("1")) {
 
 				System.out.println("Please enter your username:");
 				author = stringScanner.next();
@@ -99,13 +101,13 @@ public class Client{
 				System.out.println("author: \"" + author + "\"");
 				System.out.println("tweet: \"" + tweet + "\"");
 
-				Post post = new Post(author, tweet, timestamp);                //wrapping in a Post class before sending to the network
+				Post post = new Post(author, tweet, timestamp);         //wrapping in a Post class before sending to the network
 
 				PostSubmission user = new PostSubmission(post);
 				output.writeObject(user);
 
+			// read tweets
 			} else if (action.equals("2")) {
-				// ADD READ ALL, READ SPECIFIC FOR AUTHOR
 
 				System.out.println("1: Read last tweet");
 				System.out.println("2: Read all tweets");
@@ -118,7 +120,7 @@ public class Client{
 				timestamp = Calendar.getInstance().getTime();
 				Post emptyPost = new Post("Empty", "Empty", timestamp);
 				PostRequest userRequest = new PostRequest(emptyPost, requestType);
-
+				//Read the last tweet
 				if (requestType.equals("1")) {
 					output.writeObject(userRequest);
 					Post outputPost = new Post("Empty", "Empty", timestamp);
@@ -131,6 +133,7 @@ public class Client{
 					} catch (ClassNotFoundException e) {
 						e.printStackTrace();
 					}
+				//Read all the tweets
 				} else if (requestType.equals("2")) {
 					output.writeObject(userRequest);
 					List<Post> outputList = new LinkedList<Post>();
@@ -146,6 +149,7 @@ public class Client{
 					} catch (ClassNotFoundException e) {
 						e.printStackTrace();
 					}
+				//Read your own tweets
 				} else if (requestType.equals("3")) {
 					String authorName;
 					System.out.println("Write your username:");
@@ -167,24 +171,15 @@ public class Client{
 						e.printStackTrace();
 					}
 				}
-
+			//Exit
 			} else if (action.equals("x")){
 				System.out.println("Exit");
 				close();
 				System.exit(0);
 			}
 			else {
-				//handling if it is a request
 				System.out.println("Error. Action had wrong value. ");
-				close();
-				System.exit(0);
-			}
-/*
-			System.out.println("Do you want to make another action? ");
-			System.out.println("Write 'yes' to make another action. Write anything else to end. ");
-			goAgain = stringScanner.next();
 
-		}while(goAgain.equals("yes"));
-		*/
+			}
 	}
 }

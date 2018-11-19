@@ -1,3 +1,7 @@
+// IST JAVA project
+// JES RYDALL LARSEN
+// MELANIE BRANDL
+// IRENE ARROYO
 package data;
 
 import java.io.*;
@@ -23,11 +27,11 @@ public class Blog implements Readable, Writable{
 
         tweets.add(newPost);
     }
-    
+    // gets the list of our file
     private void populateFromDisk() throws IOException {
       
         	  try {
-        	    FileInputStream fis = new  FileInputStream("new.txt");
+        	    FileInputStream fis = new  FileInputStream("database.txt");
         	    ObjectInputStream ois = new ObjectInputStream(fis);
         	    Object obj = ois.readObject();
         	    tweets = (LinkedList<Post>) obj;
@@ -80,7 +84,7 @@ public class Blog implements Readable, Writable{
 //save() rewrites the whole file, erasing previous data
    public void save() throws IOException{
 		  try {
-		    FileOutputStream fos = new FileOutputStream ("new.txt");
+		    FileOutputStream fos = new FileOutputStream ("database.txt",false);
 		    ObjectOutputStream oos = new ObjectOutputStream(fos);
 		    oos.writeObject(tweets);
 		    fos.close();
